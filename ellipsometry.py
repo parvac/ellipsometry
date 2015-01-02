@@ -21,6 +21,14 @@ def ref_index_ormosil():
 		result.append((x, n1))
 	return result
 result1 = ref_index_ormosil()
+import matplotlib.pyplot as plt
+x = [item[0] for item in result1]
+y = [item[1] for item in result1]
+plt.plot(x,y)
+plt.title('Refractive index vs Wavelength')
+plt.xlabel('Wavelength/nm')
+plt.ylabel('Refractive index')
+plt.show()
 
 '''The second calculation is finding the refractive index of silicon wafer since it also depends on the value of wavelength.'''
 def ref_index_si():
@@ -111,7 +119,7 @@ result6 = reflectance_s_23(result1)
 
 '''The seventh calculation is finding film phase thickness, B'''
 n1= 1.0
-d= 400 #put the thickness of your material, unit is nm
+d= 1000 #put the thickness of your material, unit is nm
 import math 
 def film_thickness(d):
 	result= []
@@ -224,6 +232,9 @@ import matplotlib.pyplot as plt
 x = [item[0] for item in result14]
 y = [item[1] for item in result14]
 plt.plot(x,y)
+plt.title('Psi vs Wavelength')
+plt.xlabel('Wavelength/nm')
+plt.ylabel('Psi/Degree')
 plt.show()
 
 '''The fifteenth calculation is calculating delta in radians'''
@@ -261,5 +272,8 @@ import matplotlib.pyplot as plt
 x = [item[0] for item in result16]
 y = [item[1] for item in result16]
 plt.plot(x,y)
+plt.title('Delta vs Wavelength')
+plt.xlabel('Wavelength/nm')
+plt.ylabel('Delta/Degree')
 plt.show()
 
