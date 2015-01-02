@@ -49,12 +49,12 @@ import scipy as sp
 n1= 1.0
 def reflectance_p_12(result1):
 	'''The angle of incidence, Q is 70 degree, which is 1.2217 radians'''
-	Q1 = np.cos(1.2217)
+	Q1 = np.cos(70)
 	result = []
 	for item in result1:
 		n2= item[1]
 		position = item[0]
-		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(1.2217))))
+		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(70))))
 		r_p_12 = ((n2*Q1)-(n1*Q2))/((n2*Q1)+(n1*Q2))
 		print (Q1, Q2, r_p_12)
 		result.append((position, r_p_12)) #x is the position
@@ -66,13 +66,13 @@ result3= reflectance_p_12(result1)
 import math 
 n1= 1.0
 def reflectance_s_12(result1):
-	Q1 = np.cos(1.2217)
+	Q1 = np.cos(70)
 	result = []
 	for item in result1:
 		n2= item[1]
 		position = item[0]
 		'''by snell's law: the relationship between n1 and n2 is: sp.arcsin((n1/n2*np.sin(Q1)))'''
-		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(1.2217))))
+		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(70))))
 		r_s_12 = ((n1*Q1)-(n2*Q2))/((n1*Q1)+(n2*Q2))
 		print r_s_12
 		result.append((position, r_s_12))
@@ -83,13 +83,13 @@ result4= reflectance_s_12(result2)
 n1= 1.0
 import math 
 def reflectance_p_23(result1):
-	Q1 = np.cos(1.2217)
+	Q1 = np.cos(70)
 	result = []
 	for position, item in enumerate(result1):
 		x = item[0]
 		n2= item[1]
 		n3= result2[position][1]
-		Q2_1 = sp.arcsin(np.real_if_close(n1/n2*np.sin(1.2217)))
+		Q2_1 = sp.arcsin(np.real_if_close(n1/n2*np.sin(70)))
 		Q2 = np.cos(Q2_1)
 		Q3 = np.cos(sp.arcsin(np.real_if_close(n2/n3*np.sin(Q2_1))))
 		r_p_23 = ((n3*Q2)-(n2*Q3))/((n3*Q2)+(n2*Q3))
@@ -102,13 +102,13 @@ result5= reflectance_p_23(result1)
 n1= 1.0
 import math 
 def reflectance_s_23(result1):
-	Q1 = np.cos(1.2217)
+	Q1 = np.cos(70)
 	result = []
 	for position, item in enumerate(result1):
 		x = item[0]
 		n2= item[1]
 		n3= result2[position][1]
-		Q2_1 = sp.arcsin(np.real_if_close(n1/n2*math.sin(1.2217)))
+		Q2_1 = sp.arcsin(np.real_if_close(n1/n2*math.sin(70)))
 		Q2 = np.cos(Q2_1)
 		Q3 = np.cos(sp.arcsin(np.real_if_close(n2/n3*np.sin(Q2_1))))
 		r_s_23 = ((n2*Q2)-(n3*Q3))/((n2*Q2)+(n3*Q3))
@@ -119,14 +119,14 @@ result6 = reflectance_s_23(result1)
 
 '''The seventh calculation is finding film phase thickness, B'''
 n1= 1.0
-d= 1000 #put the thickness of your material, unit is nm
+d= 200 #put the thickness of your material, unit is nm
 import math 
 def film_thickness(d):
 	result= []
-	Q1 = math.cos(1.2217)
+	Q1 = math.cos(70)
 	for item in result1:
 		n2= item[1]
-		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(1.2217))))
+		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(70))))
 		x= item[0]
 		B= 2*(math.pi)*(d/x)*n2*Q2
 		print x
@@ -179,68 +179,43 @@ def rho(result8, result9):
 	return result
 result10= rho(result8, result9)
 
-'''The eleventh calculation is calculating the absolute value of total reflection in p-polarisation'''
-
-def get_abs(result8):
-	result = []
-	for item in result8:
-		x= item[0]
-		item_abs = abs(item[1])
-		result.append((x, item_abs))
-	return result
-result11 = get_abs(result8)
-
-
-'''The twelfth calculation is calculating the absolute value of total reflection in s polarisation'''
-def get_abs(result9):
-	result = []
-	for item in result9:
-		x= item[0]
-		item_abs = abs(item[1])
-		result.append((x, item_abs))
-	return result
-result12 = get_abs(result9)
-
-
-'''The thirteenth calculation is calculating psi, which will be in radians'''
+'''The eleventh calculation is calculating psi, which will be in radians'''
 def get_psi_radians():
     result = []
-    result11 = get_abs(result8)
-    result12 = get_abs(result9)
-    for position, item in enumerate(result11):
-        a = item[1]
-        b = result12[position][1]
+    for item in result10:
         x = item[0]
-        psi = sp.arctan(a/b)
+        b = abs(item[1])
+        psi = sp.arctan(b)
         result.append((x, psi))
     return result
-result13 = get_psi_radians()
+result11 = get_psi_radians()
 
-'''The fourteenth calculation is calculating psi in degree'''
-def get_psi_degree(result13):
+
+'''The twelfth calculation is calculating psi in degree'''
+def get_psi_degree(result11):
     result = []
-    for position, item in enumerate(result13):
+    for position, item in enumerate(result11):
         x = item[0]
         radians= item[1]
         degree = radians*180/math.pi
         result.append((x, degree))
     return result
-result14 = get_psi_degree(result12)
+result12 = get_psi_degree(result11)
 
 '''Now plotting the graph of psi vs wavelength'''
 import matplotlib.pyplot as plt
-x = [item[0] for item in result14]
-y = [item[1] for item in result14]
+x = [item[0] for item in result12]
+y = [item[1] for item in result12]
 plt.plot(x,y)
 plt.title('Psi vs Wavelength')
 plt.xlabel('Wavelength/nm')
 plt.ylabel('Psi/Degree')
 plt.show()
 
-'''The fifteenth calculation is calculating delta in radians'''
-def get_delta(result13): 
+'''The thiteenth calculation is calculating delta in radians'''
+def get_delta(result11): 
     result = []
-    for position, item in enumerate(result13):
+    for position, item in enumerate(result11):
         x = item[0]
         psi = item[1]
         rho = result10[position][1]
@@ -254,23 +229,23 @@ def get_delta(result13):
         print ('delta_4', delta_4)
         result.append((x, delta_4))
     return result
-result15 = get_delta(result13)
+result13 = get_delta(result11)
 
 '''The sixteenth and calculation is calculating delta in degree'''
-def get_degree(result15):
+def get_degree(result13):
     result = []
-    for position, item in enumerate(result15):
+    for position, item in enumerate(result13):
         x = item[0]
         radians= item[1]
         degree = radians*180/math.pi
         result.append((x, degree))
     return result
-result16= get_degree(result15)
+result14= get_degree(result13)
 
 '''Now plotting the graph of delta vs wavelength'''
 import matplotlib.pyplot as plt
-x = [item[0] for item in result16]
-y = [item[1] for item in result16]
+x = [item[0] for item in result14]
+y = [item[1] for item in result14]
 plt.plot(x,y)
 plt.title('Delta vs Wavelength')
 plt.xlabel('Wavelength/nm')
