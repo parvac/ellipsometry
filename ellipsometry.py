@@ -231,7 +231,7 @@ def get_delta(result11):
     return result
 result13 = get_delta(result11)
 
-'''The sixteenth and calculation is calculating delta in degree'''
+'''The fourteenth and final calculation is calculating delta in degree'''
 def get_degree(result13):
     result = []
     for position, item in enumerate(result13):
