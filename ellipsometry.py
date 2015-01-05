@@ -12,8 +12,8 @@ from math import sin, cos, tan
 #the formula used here is Cauchy's equation that is the emperical relationship between wavelength and refractive index.
 # N0 and N1 are Cauchy's constants in the formula
 def ref_index_ormosil():
-	N0= 1.509
-	N1= 70.7
+	N0= 1.550 
+	N1= 70.6
 	result = []
 	for x in range(400,801): #unit is nm
 		n1= N0 + N1*100/x**2 
@@ -32,8 +32,8 @@ plt.show()
 
 '''The second calculation is finding the refractive index of silicon wafer since it also depends on the value of wavelength.'''
 def ref_index_si():
-	N0= 3.87 
-	N1= 90 
+	N0= 3.872
+	N1= 100
 	result = []
 	for x in range(400,801):  #unit is nm
 		n3= N0 + N1*100/x**2
@@ -49,12 +49,12 @@ import scipy as sp
 n1= 1.0
 def reflectance_p_12(result1):
 	'''The angle of incidence, Q is 70 degree, which is 1.2217 radians'''
-	Q1 = np.cos(70)
+	Q1 = np.cos(1.2217)
 	result = []
 	for item in result1:
 		n2= item[1]
 		position = item[0]
-		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(70))))
+		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(1.2217))))
 		r_p_12 = ((n2*Q1)-(n1*Q2))/((n2*Q1)+(n1*Q2))
 		print (Q1, Q2, r_p_12)
 		result.append((position, r_p_12)) #x is the position
@@ -66,13 +66,13 @@ result3= reflectance_p_12(result1)
 import math 
 n1= 1.0
 def reflectance_s_12(result1):
-	Q1 = np.cos(70)
+	Q1 = np.cos(1.2217)
 	result = []
 	for item in result1:
 		n2= item[1]
 		position = item[0]
 		'''by snell's law: the relationship between n1 and n2 is: sp.arcsin((n1/n2*np.sin(Q1)))'''
-		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(70))))
+		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(1.2217))))
 		r_s_12 = ((n1*Q1)-(n2*Q2))/((n1*Q1)+(n2*Q2))
 		print r_s_12
 		result.append((position, r_s_12))
@@ -83,13 +83,13 @@ result4= reflectance_s_12(result2)
 n1= 1.0
 import math 
 def reflectance_p_23(result1):
-	Q1 = np.cos(70)
+	Q1 = np.cos(1.2217)
 	result = []
 	for position, item in enumerate(result1):
 		x = item[0]
 		n2= item[1]
 		n3= result2[position][1]
-		Q2_1 = sp.arcsin(np.real_if_close(n1/n2*np.sin(70)))
+		Q2_1 = sp.arcsin(np.real_if_close(n1/n2*np.sin(1.2217)))
 		Q2 = np.cos(Q2_1)
 		Q3 = np.cos(sp.arcsin(np.real_if_close(n2/n3*np.sin(Q2_1))))
 		r_p_23 = ((n3*Q2)-(n2*Q3))/((n3*Q2)+(n2*Q3))
@@ -102,13 +102,13 @@ result5= reflectance_p_23(result1)
 n1= 1.0
 import math 
 def reflectance_s_23(result1):
-	Q1 = np.cos(70)
+	Q1 = np.cos(1.2217)
 	result = []
 	for position, item in enumerate(result1):
 		x = item[0]
 		n2= item[1]
 		n3= result2[position][1]
-		Q2_1 = sp.arcsin(np.real_if_close(n1/n2*math.sin(70)))
+		Q2_1 = sp.arcsin(np.real_if_close(n1/n2*np.sin(1.2217)))
 		Q2 = np.cos(Q2_1)
 		Q3 = np.cos(sp.arcsin(np.real_if_close(n2/n3*np.sin(Q2_1))))
 		r_s_23 = ((n2*Q2)-(n3*Q3))/((n2*Q2)+(n3*Q3))
@@ -119,14 +119,14 @@ result6 = reflectance_s_23(result1)
 
 '''The seventh calculation is finding film phase thickness, B'''
 n1= 1.0
-d= 200 #put the thickness of your material, unit is nm
+d= 440.32 #put the thickness of your material, unit is nm
 import math 
 def film_thickness(d):
 	result= []
-	Q1 = math.cos(70)
+	Q1 = math.cos(1.2217)
 	for item in result1:
 		n2= item[1]
-		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(70))))
+		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(1.2217))))
 		x= item[0]
 		B= 2*(math.pi)*(d/x)*n2*Q2
 		print x
@@ -141,7 +141,7 @@ def reflectance_P(result7):
 	for position, item in enumerate(result7):
 	    x = item[0]
 	    B = item[1]
-	    A = cmath.exp(-2j * B) 
+	    A = np.exp(-2j * B) 
 	    r_p_12 = result3[position][1] 
 	    r_p_23 = result5[position][1]
 	    print A, r_p_12
@@ -184,8 +184,8 @@ def get_psi_radians():
     result = []
     for item in result10:
         x = item[0]
-        b = abs(item[1])
-        psi = sp.arctan(b)
+        b = np.abs(item[1])
+        psi = np.arctan(b)
         result.append((x, psi))
     return result
 result11 = get_psi_radians()
@@ -219,15 +219,18 @@ def get_delta(result11):
         x = item[0]
         psi = item[1]
         rho = result10[position][1]
-        C= np.tan(psi) 
-        delta_1=(np.log(rho/C))**2 
-        delta_1a= delta_1.real
-        delta_2=(delta_1a)**2
-        delta_3=np.sqrt(delta_2)
-        print ('delta_3', delta_3)
-        delta_4=np.sqrt(delta_3)
-        print ('delta_4', delta_4)
-        result.append((x, delta_4))
+        C= np.tan(psi)
+        delta_0 = (np.log(rho/C))
+        delta_1 = np.imag(delta_0)
+        #delta_1=(np.log(rho/C))**2 
+        #print ('delta_0', delta_0)
+        #delta_1a= delta_1.real
+        #delta_2=(delta_1a)**2
+        #delta_3=np.sqrt(delta_2)
+        #print ('delta_3', delta_3)
+        #delta_4=np.sqrt(delta_3)
+        #print ('delta_4', delta_4)
+        result.append((x, delta_1))
     return result
 result13 = get_delta(result11)
 
