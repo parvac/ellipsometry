@@ -190,7 +190,6 @@ def get_psi_radians():
     return result
 result11 = get_psi_radians()
 
-
 '''The twelfth calculation is calculating psi in degree'''
 def get_psi_degree(result11):
     result = []
@@ -220,16 +219,8 @@ def get_delta(result11):
         psi = item[1]
         rho = result10[position][1]
         C= np.tan(psi)
-        delta_0 = (np.log(rho/C))
+        delta_0 = (np.log(-rho/C))
         delta_1 = np.imag(delta_0)
-        #delta_1=(np.log(rho/C))**2 
-        #print ('delta_0', delta_0)
-        #delta_1a= delta_1.real
-        #delta_2=(delta_1a)**2
-        #delta_3=np.sqrt(delta_2)
-        #print ('delta_3', delta_3)
-        #delta_4=np.sqrt(delta_3)
-        #print ('delta_4', delta_4)
         result.append((x, delta_1))
     return result
 result13 = get_delta(result11)
@@ -254,4 +245,3 @@ plt.title('Delta vs Wavelength')
 plt.xlabel('Wavelength/nm')
 plt.ylabel('Delta/Degree')
 plt.show()
-
