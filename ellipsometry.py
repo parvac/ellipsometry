@@ -11,16 +11,17 @@ from math import sin, cos, tan
 #x is the wavelength
 #the formula used here is Cauchy's equation that is the emperical relationship between wavelength and refractive index.
 # N0 and N1 are Cauchy's constants in the formula
-def ref_index_ormosil():
+import numpy as np
+def ref_index_material(): #input refractive index of your material
 	N0= 1.550 
 	N1= 70.6
 	result = []
-	for x in range(400,801): #unit is nm
+	for x in np.arange(400.0,801.0, 0.01): #unit is nm
 		n1= N0 + N1*100/x**2 
 		print x, n1
 		result.append((x, n1))
 	return result
-result1 = ref_index_ormosil()
+result1 = ref_index_material()
 import matplotlib.pyplot as plt
 x = [item[0] for item in result1]
 y = [item[1] for item in result1]
@@ -31,11 +32,11 @@ plt.ylabel('Refractive index')
 plt.show()
 
 '''The second calculation is finding the refractive index of silicon wafer since it also depends on the value of wavelength.'''
-def ref_index_si():
+def ref_index_si(): #assuming substrate is silicon
 	N0= 3.872
 	N1= 100
 	result = []
-	for x in range(400,801):  #unit is nm
+	for x in np.arange(400.0,801.0, 0.01):  #unit is nm
 		n3= N0 + N1*100/x**2
 		print x, n3
 		result.append((x, n3))
@@ -219,7 +220,7 @@ def get_delta(result11):
         psi = item[1]
         rho = result10[position][1]
         C= np.tan(psi)
-        delta_0 = (np.log(-rho/C))
+        delta_0 = (np.log(-rho/C)) 
         delta_1 = np.imag(delta_0)
         result.append((x, delta_1))
     return result
@@ -231,7 +232,7 @@ def get_degree(result13):
     for position, item in enumerate(result13):
         x = item[0]
         radians= item[1]
-        degree = radians*180/math.pi
+        degree = radians*(180)/math.pi
         result.append((x, degree))
     return result
 result14= get_degree(result13)
