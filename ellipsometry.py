@@ -6,12 +6,13 @@ from __future__ import division
 import cmath
 import math
 from math import sin, cos, tan
+import numpy as np
 
 '''The first calculation is to calculate refractive index using Cauchy's equation'''
 #x is the wavelength
 #the formula used here is Cauchy's equation that is the emperical relationship between wavelength and refractive index.
 # N0 and N1 are Cauchy's constants in the formula
-import numpy as np
+
 def ref_index_material(): #input refractive index of your material
 	N0= 1.550 
 	N1= 70.6
