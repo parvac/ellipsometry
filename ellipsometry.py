@@ -7,16 +7,19 @@ import cmath
 import math
 from math import sin, cos, tan
 import numpy as np
+import scipy as sp 
+import matplotlib.pyplot as plt
+
+
+#P is the angle of incidence
+angle_of_incidence = raw_input('angle of incidence:') #in degree
+P_degree = int(angle_of_incidence) #angle of incidence in degree
+P_radians = (P_degree)*math.pi/180 #angle of incidence in radians
 
 '''The first calculation is to calculate refractive index using Cauchy's equation'''
 #x is the wavelength
 #the formula used here is Cauchy's equation that is the emperical relationship between wavelength and refractive index.
 # N0 and N1 are Cauchy's constants in the formula
-#P is the angle of incidence
-
-angle_of_incidence = raw_input('angle of incidence:') #in degree
-P_degree = int(angle_of_incidence) #angle of incidence in degree
-P_radians = (P_degree)*math.pi/180 #angle of incidence in radians
 def ref_index_material(): #input Caucy constants of your material.
 	N0= 1.550 
 	N1= 70.6
@@ -27,7 +30,7 @@ def ref_index_material(): #input Caucy constants of your material.
 		result.append((x, n1))
 	return result
 result1 = ref_index_material()
-import matplotlib.pyplot as plt
+
 x = [item[0] for item in result1]
 y = [item[1] for item in result1]
 plt.plot(x,y)
@@ -50,8 +53,6 @@ result2= ref_index_si()
 
 
 '''The third calculation is finding reflection_12 in p-polarisation'''
-import numpy as np
-import scipy as sp 
 n1= 1.0
 def reflectance_p_12(result1):
 	Q1 = np.cos(P_radians)
@@ -68,7 +69,6 @@ result3= reflectance_p_12(result1)
 
 
 '''The fourth calculation is finding reflection_12 in s-polarisation'''
-import math 
 n1= 1.0
 def reflectance_s_12(result1):
 	Q1 = np.cos(P_radians)
@@ -86,7 +86,6 @@ result4= reflectance_s_12(result2)
 
 '''The fifth calculation is finding reflection_23 in p-polarisation'''
 n1= 1.0
-import math 
 def reflectance_p_23(result1):
 	Q1 = np.cos(P_radians)
 	result = []
@@ -105,7 +104,6 @@ result5= reflectance_p_23(result1)
 
 '''The sixth calculation is finding reflection_23 in s-polarisation'''
 n1= 1.0
-import math 
 def reflectance_s_23(result1):
 	Q1 = np.cos(P_radians)
 	result = []
@@ -125,7 +123,6 @@ result6 = reflectance_s_23(result1)
 '''The seventh calculation is finding film phase thickness, B'''
 n1= 1.0 #refractive index of an air
 d= 440.32 #put the thickness of your material, unit is nm
-import math 
 def film_thickness(d):
 	result= []
 	Q1 = math.cos(P_radians)
@@ -207,7 +204,6 @@ def get_psi_degree(result11):
 result12 = get_psi_degree(result11)
 
 '''Now plotting the graph of psi vs wavelength'''
-import matplotlib.pyplot as plt
 x = [item[0] for item in result12]
 y = [item[1] for item in result12]
 plt.plot(x,y)
@@ -242,7 +238,6 @@ def get_degree(result13):
 result14= get_degree(result13)
 
 '''Now plotting the graph of delta vs wavelength'''
-import matplotlib.pyplot as plt
 x = [item[0] for item in result14]
 y = [item[1] for item in result14]
 plt.plot(x,y)
