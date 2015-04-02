@@ -116,7 +116,7 @@ def reflectance_s_23(result1):
 result6 = reflectance_s_23(result1)
 
 '''The seventh calculation is finding film phase thickness, B'''
-thickness_of_material = raw_input('thickness of material:') #put the thickness of your material, unit is nm
+thickness_of_material = raw_input('thickness of the material:') #put the thickness of your material, unit is nm
 d = int(thickness_of_material) 
 def film_thickness(d):
 	result= []
