@@ -1,7 +1,7 @@
 '''This calculation is designed to calculate psi and delta for ellipsometry. 
 The formulas are taken from the book 'A User's Guide to Ellipsometry by Harland G.Tompkins'. I have three interference here. 
-The top one is air (with refractive index, n0=1), the second layer is my material (with refractive index=n1) I want to measure the thickness and refractive index of, 
-and the final layer is the substrate, which is silicon(with refractive index=n3). I have assumed the absorption coefficient to be 0 for both material and silicon since it was close to 0.'''
+The top one is air (with refractive index, n1=1), the second layer is my material (with refractive index=n2) I want to measure the thickness and refractive index of, 
+and the final layer is the substrate, which is silicon(with refractive index=n3).'''
 from __future__ import division
 import cmath
 import math
@@ -10,6 +10,7 @@ import numpy as np
 import scipy as sp 
 import matplotlib.pyplot as plt
 
+n1 = 1.0
 
 #P is the angle of incidence
 angle_of_incidence = raw_input('angle of incidence:') #in degree
@@ -25,9 +26,9 @@ def ref_index_material(): #input Caucy constants of your material.
 	N1= 70.6
 	result = []
 	for x in np.arange(400.0,801.0): #unit is nm
-		n1= N0 + N1*100/x**2 
-		print x, n1
-		result.append((x, n1))
+		n2= N0 + N1*100/x**2 
+		print x, n2
+		result.append((x, n2))
 	return result
 result1 = ref_index_material()
 
@@ -53,7 +54,6 @@ result2= ref_index_si()
 
 
 '''The third calculation is finding reflection_12 in p-polarisation'''
-n1= 1.0
 def reflectance_p_12(result1):
 	Q1 = np.cos(P_radians)
 	result = []
@@ -69,7 +69,6 @@ result3= reflectance_p_12(result1)
 
 
 '''The fourth calculation is finding reflection_12 in s-polarisation'''
-n1= 1.0
 def reflectance_s_12(result1):
 	Q1 = np.cos(P_radians)
 	result = []
@@ -82,12 +81,10 @@ def reflectance_s_12(result1):
 		print r_s_12
 		result.append((position, r_s_12))
 	return result
-result4= reflectance_s_12(result2)
+result4= reflectance_s_12(result1)
 
 '''The fifth calculation is finding reflection_23 in p-polarisation'''
-n1= 1.0
 def reflectance_p_23(result1):
-	Q1 = np.cos(P_radians)
 	result = []
 	for position, item in enumerate(result1):
 		x = item[0]
@@ -103,9 +100,7 @@ def reflectance_p_23(result1):
 result5= reflectance_p_23(result1)
 
 '''The sixth calculation is finding reflection_23 in s-polarisation'''
-n1= 1.0
 def reflectance_s_23(result1):
-	Q1 = np.cos(P_radians)
 	result = []
 	for position, item in enumerate(result1):
 		x = item[0]
@@ -121,11 +116,10 @@ def reflectance_s_23(result1):
 result6 = reflectance_s_23(result1)
 
 '''The seventh calculation is finding film phase thickness, B'''
-n1= 1.0 #refractive index of an air
-d= 440.32 #put the thickness of your material, unit is nm
+thickness_of_material = raw_input('thickness of material:') #put the thickness of your material, unit is nm
+d = int(thickness_of_material) 
 def film_thickness(d):
 	result= []
-	Q1 = math.cos(P_radians)
 	for item in result1:
 		n2= item[1]
 		Q2 = np.cos(sp.arcsin(np.real_if_close(n1/n2*np.sin(P_radians))))
