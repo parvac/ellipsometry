@@ -1,4 +1,4 @@
-'''This calculation is designed to calculate psi and delta for ellipsometry. 
+'''This script calculates psi and delta for ellipsometry. 
 The formulas are taken from the book 'A User's Guide to Ellipsometry by Harland G.Tompkins'. I have three interference here. 
 The top one is air (with refractive index, n1=1), the second layer is my material (with refractive index=n2) I want to measure the thickness and refractive index of, 
 and the final layer is the substrate, which is silicon(with refractive index=n3).'''
